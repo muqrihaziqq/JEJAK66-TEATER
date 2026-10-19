@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Tiket & Invois Rasmi - JEJAK66</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .view-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .toggle-btn {
+      padding: 10px 24px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+    .toggle-btn.active {
+      background: var(--gold-gradient);
+      color: #000;
+      border-color: var(--gold-primary);
+    }
+    .action-bar {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation (Hidden when printing) -->
+  <nav class="navbar no-print">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-logo">
+        <i class="fa-solid fa-masks-theater" style="color:#f59e0b;"></i>
+        <span>JEJAK66</span>
+        <span class="logo-badge">TIKET</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> Utama</a>
+        <a href="status.html" class="nav-link"><i class="fa-solid fa-magnifying-glass"></i> Semak Status</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" style="padding-top: 20px; padding-bottom: 60px;">
+    
+    <!-- Action Bar (Buttons) -->
+    <div class="no-print">
+      <div class="view-toggle">
+        <button type="button" class="toggle-btn active" id="btn-tab-ticket" onclick="switchView('ticket')">
+          <i class="fa-solid fa-ticket"></i> E-Tiket Masuk
+        </button>
+        <button type="button" class="toggle-btn" id="btn-tab-invoice" onclick="switchView('invoice')">
+          <i class="fa-solid fa-file-invoice"></i> Invois / Resit Rasmi
+        </button>
+      </div>
+
+      <div class="action-bar">
+        <button type="button" class="btn btn-primary" onclick="window.print()">
+          <i class="fa-solid fa-print"></i> Cetak / Simpan PDF
+        </button>
+        <button type="button" class="btn btn-whatsapp" id="btn-share-wa">
+          <i class="fa-brands fa-whatsapp"></i> Kongsi ke WhatsApp
+        </button>
+        <a href="status.html" class="btn btn-secondary">
+          <i class="fa-solid fa-arrow-left"></i> Kembali
+        </a>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading-state" style="text-align: center; padding: 60px 20px;">
+      <i class="fa-solid fa-spinner fa-spin fa-3x" style="color: var(--gold-primary);"></i>
+      <h3 style="margin-top: 16px; color: #fff;">Memuatkan Tiket & Invois...</h3>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-state" class="card" style="display: none; max-width: 600px; margin: 40px auto; text-align: center; border-color: rgba(239, 68, 68, 0.4);">
+      <i class="fa-solid fa-circle-exclamation" style="font-size: 3rem; color: var(--accent-red); margin-bottom: 16px;"></i>
+      <h2 style="color: #fff; margin-bottom: 8px;">Tiket Tidak Dijumpai</h2>
+      <p style="color: var(--text-muted); margin-bottom: 20px;" id="error-msg">Sila semak semula ID tiket atau rujukan anda.</p>
+      <a href="status.html" class="btn btn-primary">Semak Status Tiket</a>
+    </div>
+
+    <!-- CONTENT 1: E-TICKET VIEW -->
+    <div id="view-ticket" class="ticket-wrapper" style="display: none;">
+      
+      <!-- Unapproved Alert Banner if ticket is not approved yet -->
+      <div id="ticket-unapproved-alert" class="no-print" style="display: none; background: rgba(245, 158, 11, 0.15); border: 1px solid var(--gold-primary); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 20px; text-align: center;">
+        <strong style="color: var(--gold-hover);"><i class="fa-solid fa-clock"></i> Nota Penting:</strong> 
+        Tiket ini masih berstatus <span class="badge badge-pending">Menunggu Pengesahan</span>. E-Tiket sah sepenuhnya hanya selepas admin meluluskan bukti bayaran anda.
+      </div>
+
+      <div class="ticket-pass">
+        <!-- Main Portion -->
+        <div class="ticket-main">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+            <div>
+              <span style="font-size: 0.75rem; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">PAS MASUK RASMI</span>
+              <h1 style="font-size: 2.2rem; color: #fff; margin-top: 4px; line-height: 1.1;">
+                TEATER <span style="color: var(--gold-hover);">JEJAK66</span>
+              </h1>
+              <div style="color: var(--text-muted); font-size: 0.85rem;" id="ticket-tagline">Pementasan Teater Bersejarah & Epik</div>
+            </div>
+            <div style="text-align: right;">
+              <span class="badge" id="ticket-status-badge">DISAHKAN</span>
+              <div style="font-family: 'Cinzel', serif; font-weight: 800; font-size: 1.1rem; color: var(--gold-text); margin-top: 6px;" id="ticket-ref-main">J66-00000</div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 20px 0; background: rgba(0,0,0,0.3); padding: 16px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.06);">
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">NAMA PENONTON</div>
+              <div style="font-size: 1.1rem; font-weight: 700; color: #fff;" id="ticket-name">Ahmad Bin Abdullah</div>
+            </div>
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">BILANGAN TEMPAT DUDUK</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: var(--gold-hover);" id="ticket-qty">1 Orang (1 Tiket)</div>
+            </div>
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">TARIKH PEMENTASAN</div>
+              <div style="font-size: 0.95rem; font-weight: 700; color: #fff;" id="ticket-date">18 November 2026 (Rabu)</div>
+            </div>
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">MASA MULA</div>
+              <div style="font-size: 0.95rem; font-weight: 700; color: #fff;" id="ticket-time">8:30 Malam (Pintu: 7:45 PM)</div>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">LOKASI / PANGGUNG</div>
+            <div style="font-size: 0.95rem; font-weight: 600; color: #e5e7eb;" id="ticket-venue">Panggung Teater Utama, Kuala Lumpur</div>
+          </div>
+
+          <div style="margin-top: 20px; font-size: 0.72rem; color: var(--text-dim); border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
+            * Sila tunjukkan E-Tiket ini di pintu masuk. Pengimbasan kod QR akan dilakukan oleh petugas pintu panggung.
+          </div>
+        </div>
+
+        <!-- Stub Portion with Verification QR -->
+        <div class="ticket-stub">
+          <div style="font-size: 0.75rem; font-weight: 700; color: var(--gold-text); letter-spacing: 1px; margin-bottom: 10px;">IMBAS MASUK</div>
+          <div style="background: #fff; padding: 8px; border-radius: 8px; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+            <img id="ticket-qr-img" src="" alt="QR Pengesahan Masuk" style="width: 140px; height: 140px; display: block;">
+          </div>
+          <div style="font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase;">KOD KESELAMATAN</div>
+          <div style="font-size: 0.85rem; font-weight: 700; color: #fff; font-family: monospace;" id="ticket-sec-code">VER-XXXX</div>
+          <div style="margin-top: 14px; font-size: 0.78rem; font-weight: 800; color: var(--gold-hover);" id="ticket-stub-qty">1 TIKET</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT 2: INVOICE VIEW -->
+    <div id="view-invoice" class="invoice-card" style="display: none;">
+      
+      <!-- Invoice Header -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #e5e7eb; padding-bottom: 20px; margin-bottom: 24px;">
+        <div>
+          <div style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 800; color: #1f2937; letter-spacing: 1px;">
+            JEJAK66
+          </div>
+          <div style="font-size: 0.85rem; color: #6b7280;" id="inv-organizer">Produksi Teater JEJAK66</div>
+          <div style="font-size: 0.85rem; color: #6b7280;" id="inv-contact">Emel: info@jejak66.my</div>
+        </div>
+        <div style="text-align: right;">
+          <h2 style="font-size: 1.6rem; color: #111827; margin-bottom: 4px;">INVOIS RASMI</h2>
+          <div style="font-size: 0.9rem; font-weight: 600; color: #4b5563;">NO: <span id="inv-no">INV-J66-00000</span></div>
+          <div style="font-size: 0.85rem; color: #6b7280;">Tarikh: <span id="inv-date">18/11/2026</span></div>
+          <div style="margin-top: 6px;">
+            <span id="inv-paid-badge" style="background: #10b981; color: #fff; font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 9999px;">
+              LUNAS / PAID
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bill To Details -->
+      <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+        <div style="font-size: 0.75rem; font-weight: 700; color: #6b7280; text-transform: uppercase; margin-bottom: 6px;">DIBILKAN KEPADA:</div>
+        <div style="font-size: 1.1rem; font-weight: 700; color: #111827;" id="inv-cust-name">Ahmad Bin Abdullah</div>
+        <div style="font-size: 0.9rem; color: #4b5563;" id="inv-cust-phone">No. Tel: 0123456789</div>
+        <div style="font-size: 0.9rem; color: #4b5563;" id="inv-cust-email">Emel: -</div>
+      </div>
+
+      <!-- Invoice Items Table -->
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+        <thead>
+          <tr style="background: #f3f4f6; text-align: left; font-size: 0.85rem; color: #374151;">
+            <th style="padding: 12px; border-bottom: 2px solid #e5e7eb;">BUTIRAN PERKARA</th>
+            <th style="padding: 12px; border-bottom: 2px solid #e5e7eb; text-align: center;">KUANTITI</th>
+            <th style="padding: 12px; border-bottom: 2px solid #e5e7eb; text-align: right;">HARGA SEUNIT</th>
+            <th style="padding: 12px; border-bottom: 2px solid #e5e7eb; text-align: right;">JUMLAH (RM)</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: 0.92rem; color: #1f2937;">
+          <tr>
+            <td style="padding: 14px 12px; border-bottom: 1px solid #e5e7eb;">
+              <strong>Tiket Masuk Pementasan Teater "JEJAK66"</strong><br>
+              <span style="font-size: 0.8rem; color: #6b7280;">Tarikh: 18 November 2026 | Masa: 8:30 Malam</span>
+            </td>
+            <td style="padding: 14px 12px; border-bottom: 1px solid #e5e7eb; text-align: center;" id="inv-table-qty">1</td>
+            <td style="padding: 14px 12px; border-bottom: 1px solid #e5e7eb; text-align: right;">RM 2.00</td>
+            <td style="padding: 14px 12px; border-bottom: 1px solid #e5e7eb; text-align: right; font-weight: 700;" id="inv-table-total">RM 2.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Totals & Summary -->
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 30px;">
+        <div style="width: 280px;">
+          <div style="display: flex; justify-content: space-between; padding: 6px 0; color: #4b5563;">
+            <span>Jumlah Kecil:</span>
+            <span id="inv-subtotal">RM 2.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 6px 0; color: #4b5563;">
+            <span>Cukai Perkhidmatan:</span>
+            <span>RM 0.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 2px solid #111827; font-size: 1.15rem; font-weight: 800; color: #111827;">
+            <span>JUMLAH BESAR:</span>
+            <span id="inv-grand-total">RM 2.00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Method Note -->
+      <div style="border-top: 1px dashed #d1d5db; padding-top: 20px; font-size: 0.82rem; color: #6b7280; text-align: center;">
+        <p>Kaedah Bayaran: <strong>Pemindahan Kod QR DuitNow / Bank</strong> | Status: <strong style="color: #059669;">DISAHKAN LUNAS</strong></p>
+        <p style="margin-top: 4px;">Invois ini dijana secara digital untuk pementasan teater JEJAK66 pada 18/11/2026 dan sah tanpa tandatangan manual.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    let globalTicketData = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ticketId = urlParams.get('id') || urlParams.get('ref');
+      const viewType = urlParams.get('type') || 'ticket';
+
+      if (!ticketId) {
+        showError('Sila nyatakan ID tiket atau nombor rujukan dalam URL.');
+        return;
+      }
+
+      loadTicketData(ticketId, viewType);
+    });
+
+    async function loadTicketData(id, viewType) {
+      try {
+        const res = await fetch(`/api/tickets/${encodeURIComponent(id)}/view`);
+        const data = await res.json();
+
+        if (data.success && data.ticket) {
+          globalTicketData = data;
+          renderTicketAndInvoice(data);
+          switchView(viewType);
+          document.getElementById('loading-state').style.display = 'none';
+        } else {
+          showError(data.message || 'Tiket tidak ditemui dalam sistem.');
+        }
+      } catch (err) {
+        console.error('Error fetching ticket:', err);
+        showError('Ralat memuatkan maklumat tiket daripada pelayan.');
+      }
+    }
+
+    function renderTicketAndInvoice(data) {
+      const t = data.ticket;
+      const ev = data.event;
+
+      // 1. Fill E-Ticket Fields
+      document.getElementById('ticket-ref-main').textContent = t.refCode;
+      document.getElementById('ticket-name').textContent = t.customerName;
+      document.getElementById('ticket-qty').textContent = `${t.quantity} Orang (${t.quantity} Tiket)`;
+      document.getElementById('ticket-stub-qty').textContent = `${t.quantity} TIKET`;
+      document.getElementById('ticket-date').textContent = ev.dateFormatted || '18 November 2026';
+      document.getElementById('ticket-time').textContent = `${ev.time} (Pintu: ${ev.doorsOpen || '7:45 PM'})`;
+      document.getElementById('ticket-venue').textContent = ev.venue;
+      document.getElementById('ticket-tagline').textContent = ev.tagline || 'Pementasan Teater Bersejarah & Epik';
+      document.getElementById('ticket-sec-code').textContent = t.verificationSecret || 'VER-PASS';
+
+      if (data.qrCodeDataUrl) {
+        document.getElementById('ticket-qr-img').src = data.qrCodeDataUrl;
+      }
+
+      // Status Badge on Ticket
+      const badge = document.getElementById('ticket-status-badge');
+      const alertBox = document.getElementById('ticket-unapproved-alert');
+      if (t.status === 'APPROVED') {
+        badge.className = 'badge badge-approved';
+        badge.innerHTML = '<i class="fa-solid fa-check"></i> DISAHKAN';
+        alertBox.style.display = 'none';
+      } else {
+        badge.className = 'badge badge-pending';
+        badge.innerHTML = '<i class="fa-solid fa-clock"></i> MENUNGGU SAH';
+        alertBox.style.display = 'block';
+      }
+
+      // 2. Fill Invoice Fields
+      document.getElementById('inv-organizer').textContent = ev.organizer || 'Produksi Teater JEJAK66';
+      document.getElementById('inv-contact').textContent = `Emel: ${ev.contactEmail || 'info@jejak66.my'} | Tel: ${ev.contactPhone || '-'}`;
+      document.getElementById('inv-no').textContent = `INV-${t.refCode}`;
+      document.getElementById('inv-date').textContent = new Date(t.createdAt).toLocaleDateString('ms-MY');
+      document.getElementById('inv-cust-name').textContent = t.customerName;
+      document.getElementById('inv-cust-phone').textContent = `No. Telefon: ${t.customerPhone}`;
+      document.getElementById('inv-cust-email').textContent = t.customerEmail ? `Emel: ${t.customerEmail}` : '';
+      document.getElementById('inv-table-qty').textContent = t.quantity;
+      document.getElementById('inv-table-total').textContent = `RM ${t.totalPrice.toFixed(2)}`;
+      document.getElementById('inv-subtotal').textContent = `RM ${t.totalPrice.toFixed(2)}`;
+      document.getElementById('inv-grand-total').textContent = `RM ${t.totalPrice.toFixed(2)}`;
+
+      const invBadge = document.getElementById('inv-paid-badge');
+      if (t.status === 'APPROVED') {
+        invBadge.textContent = 'LUNAS / PAID';
+        invBadge.style.background = '#10b981';
+      } else {
+        invBadge.textContent = 'MENUNGGU PENGESAHAN';
+        invBadge.style.background = '#f59e0b';
+      }
+
+      // 3. Share to WhatsApp Button
+      const btnShareWa = document.getElementById('btn-share-wa');
+      btnShareWa.addEventListener('click', () => {
+        const fullUrl = window.location.href;
+        const msg = `Hai ${t.customerName}, ini pautan E-Tiket rasmi & Invois pementasan Teater JEJAK66 (18/11/2026) anda:\n\n${fullUrl}\n\nSila simpan atau cetak untuk urusan masuk di panggung. Terima kasih!`;
+        const waUrl = `https://wa.me/${cleanPhoneForWa(t.customerPhone)}?text=${encodeURIComponent(msg)}`;
+        window.open(waUrl, '_blank');
+      });
+    }
+
+    function switchView(type) {
+      const ticketView = document.getElementById('view-ticket');
+      const invoiceView = document.getElementById('view-invoice');
+      const btnTicket = document.getElementById('btn-tab-ticket');
+      const btnInvoice = document.getElementById('btn-tab-invoice');
+
+      if (type === 'invoice') {
+        ticketView.style.display = 'none';
+        invoiceView.style.display = 'block';
+        btnTicket.classList.remove('active');
+        btnInvoice.classList.add('active');
+      } else {
+        invoiceView.style.display = 'none';
+        ticketView.style.display = 'block';
+        btnInvoice.classList.remove('active');
+        btnTicket.classList.add('active');
+      }
+    }
+
+    function cleanPhoneForWa(phone) {
+      let p = phone.replace(/\D/g, '');
+      if (p.startsWith('0')) {
+        p = '60' + p.substring(1);
+      } else if (!p.startsWith('60')) {
+        p = '60' + p;
+      }
+      return p;
+    }
+
+    function showError(msg) {
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('error-msg').textContent = msg;
+      document.getElementById('error-state').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

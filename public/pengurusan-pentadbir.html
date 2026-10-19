@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Pentadbir - Pengurusan Tiket JEJAK66</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .admin-header {
+      background: rgba(17, 21, 32, 0.95);
+      border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin: 25px 0;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    .stat-val {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      line-height: 1.1;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .filter-tab {
+      background: #141926;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filter-tab.active {
+      background: var(--gold-gradient);
+      color: #000;
+      border-color: var(--gold-primary);
+    }
+    .admin-tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 24px;
+      gap: 20px;
+    }
+    .admin-tab {
+      padding: 12px 10px;
+      color: var(--text-muted);
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .admin-tab.active {
+      color: var(--gold-hover);
+      border-bottom-color: var(--gold-primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ADMIN LOGIN SECTION (Shown if not logged in) -->
+  <div id="login-section" style="display: flex; align-items: center; justify-content: center; min-height: 80vh; padding: 20px;">
+    <div class="card" style="max-width: 420px; width: 100%; text-align: center; border-color: rgba(245, 158, 11, 0.35);">
+      <div style="font-size: 3rem; color: var(--gold-primary); margin-bottom: 12px;">
+        <i class="fa-solid fa-user-shield"></i>
+      </div>
+      <h2 style="color: #fff; margin-bottom: 6px;">Portal Pentadbir</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px;">
+        Sistem Pengurusan Tiket & Invois <strong>JEJAK66</strong>
+      </p>
+
+      <form id="login-form">
+        <div class="form-group" style="text-align: left;">
+          <label class="form-label" for="admin-pass">Kata Laluan Admin</label>
+          <input type="password" id="admin-pass" class="form-input" placeholder="Masukkan kata laluan..." required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full" id="btn-login">
+          <i class="fa-solid fa-right-to-bracket"></i> Log Masuk
+        </button>
+      </form>
+
+      <div style="margin-top: 20px;">
+        <a href="index.html" style="color: var(--text-muted); font-size: 0.85rem;"><i class="fa-solid fa-arrow-left"></i> Kembali ke Laman Awam</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD SECTION (Shown after login) -->
+  <div id="dashboard-section" style="display: none;">
+
+    <!-- Admin Nav Header -->
+    <header class="admin-header">
+      <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <i class="fa-solid fa-masks-theater" style="color:var(--gold-primary); font-size: 1.5rem;"></i>
+          <div>
+            <div style="font-family: 'Cinzel', serif; font-weight: 800; font-size: 1.2rem; color: #fff;">JEJAK66 <span style="font-size: 0.75rem; color: var(--gold-text); background: rgba(245,158,11,0.2); padding: 2px 8px; border-radius: 4px;">ADMIN</span></div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <a href="index.html" target="_blank" class="btn btn-secondary btn-sm"><i class="fa-solid fa-globe"></i> Laman Awam</a>
+          <button type="button" class="btn btn-danger btn-sm" id="btn-logout"><i class="fa-solid fa-power-off"></i> Log Keluar</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container" style="padding-top: 20px; padding-bottom: 60px;">
+
+      <!-- Metric Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
+            <i class="fa-solid fa-ticket"></i>
+          </div>
+          <div>
+            <div class="stat-val" id="stat-sold-tickets">0</div>
+            <div class="stat-label">Tiket Terjual (Lulus)</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
+            <i class="fa-solid fa-sack-dollar"></i>
+          </div>
+          <div>
+            <div class="stat-val" id="stat-revenue">RM 0.00</div>
+            <div class="stat-label">Jumlah Kutipan Lulus</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(234, 88, 12, 0.15); color: #ea580c;">
+            <i class="fa-solid fa-hourglass-half"></i>
+          </div>
+          <div>
+            <div class="stat-val" id="stat-pending" style="color: #fbbf24;">0</div>
+            <div class="stat-label">Menunggu Semakan Resit</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div>
+            <div class="stat-val" id="stat-total-orders">0</div>
+            <div class="stat-label">Jumlah Tempahan</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs (Bookings vs Settings) -->
+      <div class="admin-tabs">
+        <div class="admin-tab active" id="tab-btn-orders" onclick="switchAdminTab('orders')">
+          <i class="fa-solid fa-list-check"></i> Senarai Tempahan & Bukti Bayaran
+        </div>
+        <div class="admin-tab" id="tab-btn-settings" onclick="switchAdminTab('settings')">
+          <i class="fa-solid fa-sliders"></i> Tetapan Pementasan & Kod QR
+        </div>
+      </div>
+
+      <!-- TAB 1: ORDERS & RECEIPT VERIFICATION -->
+      <div id="tab-content-orders">
+        
+        <!-- Controls: Search & Filters -->
+        <div class="card" style="margin-bottom: 20px; padding: 18px 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+            
+            <div class="filter-tabs">
+              <button class="filter-tab active" onclick="setFilter('ALL', this)">Semua (<span id="count-all">0</span>)</button>
+              <button class="filter-tab" onclick="setFilter('PENDING', this)" style="border-color: rgba(245,158,11,0.4);">
+                <i class="fa-solid fa-clock" style="color: #fbbf24;"></i> Menunggu (<span id="count-pending">0</span>)
+              </button>
+              <button class="filter-tab" onclick="setFilter('APPROVED', this)" style="border-color: rgba(16,185,129,0.4);">
+                <i class="fa-solid fa-check" style="color: #34d399;"></i> Disahkan (<span id="count-approved">0</span>)
+              </button>
+              <button class="filter-tab" onclick="setFilter('REJECTED', this)" style="border-color: rgba(239,68,68,0.4);">
+                <i class="fa-solid fa-xmark" style="color: #f87171;"></i> Ditolak (<span id="count-rejected">0</span>)
+              </button>
+            </div>
+
+            <div style="display: flex; gap: 10px; flex: 1; max-width: 350px;">
+              <input type="text" id="admin-search-input" class="form-input" placeholder="Cari Nama, No Tel, Ref..." style="padding: 8px 12px; font-size: 0.88rem;">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="loadAdminTickets()"><i class="fa-solid fa-rotate"></i></button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="table-responsive card" style="padding: 0;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Rujukan</th>
+                <th>Tarikh</th>
+                <th>Nama Penonton</th>
+                <th>No. Telefon</th>
+                <th>Kuantiti</th>
+                <th>Jumlah (RM)</th>
+                <th>Bukti Pembayaran</th>
+                <th>Status</th>
+                <th style="text-align: right;">Tindakan</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table-body">
+              <tr>
+                <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-dim);">
+                  <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+                  <div style="margin-top: 8px;">Memuatkan data tempahan...</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- TAB 2: SETTINGS (QR Upload & Event Details) -->
+      <div id="tab-content-settings" style="display: none;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          
+          <!-- Box 1: Payment QR Management -->
+          <div class="card">
+            <h3 style="color: var(--gold-text); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+              <i class="fa-solid fa-qrcode"></i> Kemas Kini Kod QR Pembayaran
+            </h3>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">
+              Muat naik imej Kod QR DuitNow / Touch 'n Go / Bank rasmi anda untuk dipaparkan kepada pembeli tiket semasa mereka membuat tempahan.
+            </p>
+
+            <div style="text-align: center; margin-bottom: 20px;">
+              <div style="background: #fff; padding: 12px; border-radius: 12px; display: inline-block; border: 2px solid var(--gold-primary);">
+                <img id="admin-current-qr-img" src="/uploads/qr/default-qr.png" alt="Kod QR Semasa" style="width: 180px; height: 180px; object-fit: contain; display: block;">
+              </div>
+              <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 8px;">Kod QR yang sedang aktif di laman web</div>
+            </div>
+
+            <form id="form-upload-qr">
+              <div class="form-group">
+                <label class="form-label" for="qrImage">Pilih Gambar QR Baharu (JPG / PNG)</label>
+                <input type="file" id="qrImage" name="qrImage" accept="image/*" class="form-input" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-full" id="btn-save-qr">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Muat Naik & Ganti Kod QR
+              </button>
+            </form>
+          </div>
+
+          <!-- Box 2: Event Details & Bank Info -->
+          <div class="card">
+            <h3 style="color: var(--gold-text); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+              <i class="fa-solid fa-gear"></i> Butiran Pementasan & Bank
+            </h3>
+            
+            <form id="form-event-settings">
+              <div class="form-group">
+                <label class="form-label">Nama Pementasan</label>
+                <input type="text" id="set-title" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tarikh Pementasan</label>
+                <input type="text" id="set-dateFormatted" class="form-input" placeholder="cth: 18 November 2026" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Masa & Pintu Dibuka</label>
+                <input type="text" id="set-time" class="form-input" placeholder="cth: 8:30 Malam" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Lokasi / Dewan</label>
+                <input type="text" id="set-venue" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nama Akaun Penerima Bayaran</label>
+                <input type="text" id="set-accountName" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Bank & No. Akaun</label>
+                <input type="text" id="set-accountNumber" class="form-input" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-full" id="btn-save-settings">
+                <i class="fa-solid fa-floppy-disk"></i> Simpan Maklumat Acara
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- MODAL: RECEIPT VIEWER & DIRECT APPROVAL -->
+  <div class="modal-backdrop" id="modal-receipt">
+    <div class="modal-card" style="max-width: 680px;">
+      <button class="modal-close" onclick="closeReceiptModal()">&times;</button>
+      
+      <h3 style="color: var(--gold-text); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+        <i class="fa-solid fa-file-invoice-dollar"></i> Semakan Bukti Pembayaran
+      </h3>
+      <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+        Kod Rujukan: <strong id="modal-rcpt-ref" style="color: #fff;">-</strong> | 
+        Penonton: <strong id="modal-rcpt-name" style="color: #fff;">-</strong> | 
+        Jumlah Perlu: <strong id="modal-rcpt-amount" style="color: var(--gold-hover);">RM -</strong>
+      </div>
+
+      <!-- Receipt Preview Box -->
+      <div style="background: #000; border-radius: 8px; padding: 10px; text-align: center; margin-bottom: 20px; max-height: 450px; overflow: auto;">
+        <img id="modal-rcpt-img" src="" alt="Bukti Pembayaran" style="max-width: 100%; height: auto; border-radius: 4px; display: none;">
+        <iframe id="modal-rcpt-pdf" src="" style="width: 100%; height: 400px; border: none; display: none;"></iframe>
+      </div>
+
+      <!-- Approval Actions in Modal -->
+      <div style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
+        <a id="modal-rcpt-download" href="" target="_blank" class="btn btn-secondary btn-sm">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Saiz Penuh
+        </a>
+        <button type="button" class="btn btn-danger btn-sm" id="modal-btn-reject">
+          <i class="fa-solid fa-xmark"></i> Tolak Bayaran
+        </button>
+        <button type="button" class="btn btn-success btn-sm" id="modal-btn-approve">
+          <i class="fa-solid fa-check"></i> Sahkan Bayaran (Lulus)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

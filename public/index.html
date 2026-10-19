@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JEJAK66 - Pementasan Teater 18/11/2026 | Tiket RM2</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-logo">
+        <i class="fa-solid fa-masks-theater" style="color:#f59e0b;"></i>
+        <span>JEJAK66</span>
+        <span class="logo-badge">TEATER</span>
+      </a>
+      <div class="nav-links">
+        <a href="#maklumat" class="nav-link">Maklumat</a>
+        <a href="#tempah" class="nav-link">Tempah Tiket</a>
+        <a href="status.html" class="nav-link"><i class="fa-solid fa-magnifying-glass"></i> Semak Status</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-tag">
+        <i class="fa-solid fa-star"></i> PEMENTASAN TEATER BERSEJARAH & EPIK
+      </div>
+      <h1 class="hero-title">TEATER <span>JEJAK66</span></h1>
+      <p class="hero-subtitle">
+        Satu pengembaraan seni pentas penuh emosi, misteri, dan keberanian. Saksikan pementasan eksklusif yang bakal menggegarkan panggung pada tarikh bersejarah.
+      </p>
+
+      <!-- Key Details Pills -->
+      <div class="hero-meta-grid">
+        <div class="meta-pill">
+          <i class="fa-solid fa-calendar-days" style="color:var(--gold-primary)"></i>
+          <span><strong>18 November 2026</strong> (Rabu)</span>
+        </div>
+        <div class="meta-pill">
+          <i class="fa-solid fa-clock" style="color:var(--gold-primary)"></i>
+          <span><strong>8:30 Malam</strong> (Pintu Dibuka 7:45 PM)</span>
+        </div>
+        <div class="meta-pill">
+          <i class="fa-solid fa-location-dot" style="color:var(--gold-primary)"></i>
+          <span><strong>Panggung Teater Utama</strong></span>
+        </div>
+        <div class="meta-pill price-pill">
+          <i class="fa-solid fa-ticket" style="color:var(--gold-primary)"></i>
+          <span>Tiket Masuk: <span class="price-highlight">RM 2.00</span> / tiket</span>
+        </div>
+      </div>
+
+      <!-- Countdown Box -->
+      <div class="countdown-box" id="countdown">
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-days">--</span>
+          <span class="countdown-label">Hari</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-hours">--</span>
+          <span class="countdown-label">Jam</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-mins">--</span>
+          <span class="countdown-label">Minit</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-secs">--</span>
+          <span class="countdown-label">Saat</span>
+        </div>
+      </div>
+
+      <div>
+        <a href="#tempah" class="btn btn-primary">
+          <i class="fa-solid fa-ticket-simple"></i> Tempah Tiket Sekarang (RM2)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Synopsis & Highlights -->
+  <section class="section" id="maklumat">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Sinopsis & Info Acara</span>
+        <h2 class="section-title">Misteri Angka 66 Terbongkar</h2>
+      </div>
+
+      <div class="card" style="margin-bottom: 30px;">
+        <div style="max-width: 850px; margin: 0 auto; text-align: center;">
+          <p style="font-size: 1.15rem; color: #e5e7eb; line-height: 1.8; margin-bottom: 20px;">
+            Apakah yang tersirat di sebalik jejak yang ditinggalkan? Teater <strong>"JEJAK66"</strong> menggabungkan aksi dramatik, dialog mendalam, serta tata cahaya teater spektakular yang membawa penonton meneroka pengorbanan demi mencari sebuah kebenaran mutlak.
+          </p>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">
+            Tempat duduk adalah terhad. Tempahan awal dibuka sekarang dengan sumbangan tiket serendah <strong>RM 2.00</strong> sahaja!
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking & Payment Section -->
+  <section class="section" id="tempah">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Borang Tempahan & Pembayaran</span>
+        <h2 class="section-title">Tempah Tiket JEJAK66</h2>
+      </div>
+
+      <form id="booking-form" enctype="multipart/form-data">
+        <div class="booking-grid">
+          
+          <!-- Column 1: Customer Details -->
+          <div class="card">
+            <h3 style="margin-bottom: 20px; color: var(--gold-text); display: flex; align-items: center; gap: 10px;">
+              <i class="fa-solid fa-user-pen"></i> 1. Maklumat Penonton
+            </h3>
+
+            <div class="form-group">
+              <label class="form-label" for="customerName">Nama Penuh <span class="req">*</span></label>
+              <input type="text" id="customerName" name="customerName" class="form-input" placeholder="cth: Ahmad Bin Abdullah" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="customerPhone">Nombor Telefon (WhatsApp) <span class="req">*</span></label>
+              <input type="tel" id="customerPhone" name="customerPhone" class="form-input" placeholder="cth: 0123456789" required>
+              <div class="form-hint">E-Tiket & Invois boleh dihantar ke nombor WhatsApp ini.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="customerEmail">Alamat Emel (Pilihan)</label>
+              <input type="email" id="customerEmail" name="customerEmail" class="form-input" placeholder="cth: penonton@gmail.com">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Bilangan Tiket <span class="req">*</span></label>
+              <div class="qty-stepper">
+                <button type="button" class="qty-btn" id="btn-minus"><i class="fa-solid fa-minus"></i></button>
+                <input type="number" id="quantity" name="quantity" class="qty-input" value="1" min="1" max="50" readonly>
+                <button type="button" class="qty-btn" id="btn-plus"><i class="fa-solid fa-plus"></i></button>
+                <span style="color: var(--text-muted); font-size: 0.9rem;">(RM 2.00 / tiket)</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="notes">Catatan Tambahan (Pilihan)</label>
+              <textarea id="notes" name="notes" rows="2" class="form-textarea" placeholder="cth: Tempat duduk khas / rombongan"></textarea>
+            </div>
+
+            <!-- Price Breakdown Box -->
+            <div class="summary-box">
+              <div class="summary-row">
+                <span>Harga Seunit:</span>
+                <span>RM 2.00</span>
+              </div>
+              <div class="summary-row">
+                <span>Bilangan Tiket:</span>
+                <span id="summary-qty">1 Tiket</span>
+              </div>
+              <div class="summary-total">
+                <span>Jumlah Bayaran:</span>
+                <span class="total-amount" id="summary-total">RM 2.00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: QR Payment & Receipt Upload -->
+          <div class="card">
+            <h3 style="margin-bottom: 20px; color: var(--gold-text); display: flex; align-items: center; gap: 10px;">
+              <i class="fa-solid fa-qrcode"></i> 2. Imbas QR & Bayar
+            </h3>
+
+            <div class="payment-card">
+              <span class="payment-badge"><i class="fa-solid fa-shield-halved"></i> BAYARAN RASMI PENGANJUR</span>
+              
+              <div class="qr-wrapper">
+                <img src="/uploads/qr/default-qr.png" id="event-qr-image" alt="Kod QR Pembayaran" class="qr-img">
+              </div>
+
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+                Imbas guna <strong>DuitNow QR / Touch 'n Go eWallet / Mana-mana Bank</strong>
+              </p>
+
+              <div class="payment-details">
+                <div class="payment-details-row">
+                  <span class="payment-details-label">Penerima:</span>
+                  <span class="payment-details-val" id="event-acc-name">PRODUKSI TEATER JEJAK66</span>
+                </div>
+                <div class="payment-details-row">
+                  <span class="payment-details-label">Bank / Kaedah:</span>
+                  <span class="payment-details-val" id="event-bank-name">Maybank / DuitNow QR</span>
+                </div>
+                <div class="payment-details-row">
+                  <span class="payment-details-label">No. Akaun:</span>
+                  <span class="payment-details-val" id="event-acc-num">5140 1234 5678</span>
+                </div>
+                <div class="payment-details-row">
+                  <span class="payment-details-label">Jumlah Tepat:</span>
+                  <span class="payment-details-val" style="color:var(--gold-text); font-weight:700;" id="qr-pay-amount">RM 2.00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upload Receipt Box -->
+            <div style="margin-top: 24px;">
+              <h4 style="font-size: 1rem; color: #fff; margin-bottom: 8px;">
+                <i class="fa-solid fa-file-invoice-dollar" style="color:var(--gold-primary)"></i> 3. Muat Naik Bukti Bayaran <span class="req">*</span>
+              </h4>
+              <p style="font-size: 0.82rem; color: var(--text-dim); margin-bottom: 12px;">
+                Sila lampirkan tangkap layar (screenshot) atau slip resit transaksi pemindahan bank / eWallet anda.
+              </p>
+
+              <input type="file" id="receipt" name="receipt" accept="image/*,application/pdf" style="display: none;" required>
+              
+              <div class="dropzone" id="dropzone">
+                <div class="dropzone-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                <div class="dropzone-text">Klik atau seret fail resit ke sini</div>
+                <div class="dropzone-sub">Format: JPG, PNG, WEBP, atau PDF (Maksimum 10MB)</div>
+              </div>
+
+              <!-- Live File Preview -->
+              <div class="file-preview" id="file-preview">
+                <img id="preview-img" src="" alt="Pratonton Resit">
+                <div class="file-info">
+                  <div class="file-name" id="preview-name">resit.jpg</div>
+                  <div class="file-size" id="preview-size">0 KB</div>
+                </div>
+                <button type="button" class="remove-file" id="btn-remove-file" title="Buang fail">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div style="margin-top: 24px;">
+              <button type="submit" class="btn btn-primary btn-full" id="btn-submit">
+                <i class="fa-solid fa-paper-plane"></i> Hantar Tempahan & Bukti Bayaran
+              </button>
+              <p style="font-size: 0.78rem; text-align: center; color: var(--text-dim); margin-top: 10px;">
+                <i class="fa-solid fa-lock"></i> Maklumat anda selamat. Admin akan menyemak resit sebelum mengesahkan tiket.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Success Modal -->
+  <div class="modal-backdrop" id="modal-success">
+    <div class="modal-card" style="text-align: center;">
+      <div style="font-size: 3.5rem; color: var(--accent-green); margin-bottom: 12px;">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <h2 style="font-size: 1.8rem; color: #fff; margin-bottom: 8px;">Tempahan Berjaya Dihantar!</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">
+        Terima kasih! Bukti pembayaran anda telah diterima dan kini dalam proses pengesahan oleh pihak pengurusan teater JEJAK66.
+      </p>
+
+      <div style="background: rgba(245, 158, 11, 0.1); border: 1px dashed var(--gold-primary); border-radius: var(--radius-md); padding: 16px; margin-bottom: 24px;">
+        <div style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Nombor Rujukan Tempahan Anda:</div>
+        <div style="font-size: 2rem; font-weight: 800; color: var(--gold-hover); font-family: 'Cinzel', serif; letter-spacing: 2px;" id="modal-ref">J66-00000</div>
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-copy-ref" style="margin-top: 8px;">
+          <i class="fa-regular fa-copy"></i> Salin Kod Rujukan
+        </button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <a href="status.html" id="link-check-status" class="btn btn-primary">
+          <i class="fa-solid fa-magnifying-glass"></i> Semak Status Tempahan
+        </a>
+        <button type="button" class="btn btn-secondary" onclick="closeSuccessModal()">
+          Tutup & Buat Tempahan Lain
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div style="margin-bottom: 16px;">
+        <span style="font-family: 'Cinzel', serif; font-weight: 800; font-size: 1.3rem; color: var(--gold-text); letter-spacing: 2px;">JEJAK66</span>
+        <div style="color: var(--text-dim); font-size: 0.85rem;">Pementasan Teater 18 November 2026</div>
+      </div>
+      <p>&copy; 2026 Produksi Teater JEJAK66. Hak Cipta Terpelihara.</p>
+      <div style="margin-top: 10px; display: flex; justify-content: center; gap: 20px;">
+        <a href="status.html"><i class="fa-solid fa-receipt"></i> Semak Status Tiket</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
